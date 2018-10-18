@@ -41,44 +41,39 @@ char** get_file_string(char* file){
         exit(EXIT_FAILURE);
     }
 
-
-    char *orginal_string = my_malloc(strlen (string)+1);
-    strcpy(orginal_string, string);
+    char *orginal_string = string;
 
     while (*string) i += *(string++) == '\n';
 
 
-    char **finalString = my_malloc(i + 1);
+    char **finalString_2 = my_malloc(i + 1);
 
-    strcpy(string, orginal_string);
-
-
-    int line_index=0;
-    int index = 0;
-    int previous_index = 0;
-    //O(n^2) impl.
-    while(*string){
-        if(*string==end_of_line){
-            finalString[line_index]=my_malloc(index - previous_index + 2);
-            for (int j = previous_index; j < index; ++j) {
-                finalString[line_index][j-previous_index] = orginal_string[j];
-            }
-            line_index++;
-            previous_index = index+1;
-        };
-        string++;
-        index++;
+    string = orginal_string;
+    char buff[BUFSIZ] = {0};
+    int v = 0;
+    if((_file = fopen(file,"r"))!=NULL){
+        while (fgets(buff, sizeof(buff), _file)){
+            finalString_2[v] = calloc(sizeof(buff),sizeof(buff));
+            strcpy(finalString_2[v],buff);
+            finalString_2[v][strlen(finalString_2[v])-1]='\0';
+            v++;
+        }
     }
 
-    free(orginal_string);
-    free(string);
-    return finalString;
+    finalString_2[v+1] = NULL;
+
+
+    return finalString_2;
 }
 
 
 //O(n) imp of removing spaces from the start and end of strings
-char* space_strip(char* string){
+void space_strip(char* string, char* dest){
     int length = (int) strlen(string);
+
+    if(length==0){
+        dest="\0";
+    }
 
     int spaceNumBegin = 0;
     int spaceNumEnd = 0;
@@ -102,17 +97,69 @@ char* space_strip(char* string){
         break;
     }
 
-
-    char * new_string = my_malloc((size_t) (length - spaceNumBegin - spaceNumEnd));
+    //printf("%i\n",(length - spaceNumBegin - spaceNumEnd));
+    //char * new_string = my_malloc(length - spaceNumBegin - spaceNumEnd);
 
     //strip space from left and right side
     for(int i=spaceNumBegin; i<length-spaceNumEnd; i++){
-        new_string[i-spaceNumBegin] = *(string+i);
+        dest[i-spaceNumBegin] = *(string+i);
+    }
+}
+
+void remove_from_array(char** array, char** needle){
+    long index = needle-array;
+    int length = 0;
+    char** or_p = array;
+    while (*array++) length++;
+    array = or_p;
+    for(long i = index; i < length+1; ++i) {
+        array[i] = array[i + 1];
+    };
+};
+
+// You must free the result if result is non-NULL.
+char *str_replace(char *orig, char *rep, char *with) {
+    char *result; // the return string
+    char *ins;    // the next insert point
+    char *tmp;    // varies
+    int len_rep;  // length of rep (the string to remove)
+    int len_with; // length of with (the string to replace rep with)
+    int len_front; // distance between rep and end of last rep
+    int count;    // number of replacements
+
+    // sanity checks and initialization
+    if (!orig || !rep)
+        return NULL;
+    len_rep = strlen(rep);
+    if (len_rep == 0)
+        return NULL; // empty rep causes infinite loop during count
+    if (!with)
+        with = "";
+    len_with = strlen(with);
+
+    // count the number of replacements needed
+    ins = orig;
+    for (count = 0; tmp = strstr(ins, rep); ++count) {
+        ins = tmp + len_rep;
     }
 
-    new_string[length-spaceNumBegin-spaceNumEnd] = '\0';
+    tmp = result = malloc(strlen(orig) + (len_with - len_rep) * count + 1);
 
+    if (!result)
+        return NULL;
 
-    return &new_string[0];
-
+    // first time through the loop, all the variable are set correctly
+    // from here on,
+    //    tmp points to the end of the result string
+    //    ins points to the next occurrence of rep in orig
+    //    orig points to the remainder of orig after "end of rep"
+    while (count--) {
+        ins = strstr(orig, rep);
+        len_front = ins - orig;
+        tmp = strncpy(tmp, orig, len_front) + len_front;
+        tmp = strcpy(tmp, with) + len_with;
+        orig += len_front + len_rep; // move to next "end of rep"
+    }
+    strcpy(tmp, orig);
+    return result;
 }

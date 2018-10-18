@@ -9,7 +9,11 @@
 
 int main() {
 
-    printf("test: %s\n",space_strip("  test  12   "));
+    //printf("test: %s\n",space_strip("  test  12   "));
+
+    //char** test = get_file_string("/Users/campbell/CLionProjects/bake!/test/Bakefile");
+
+    //while ((*test++)!=NULL)printf("%s\n", *test);
 
     //need to figure out args and find the make file
     Target* targets = lexianate(get_file_string("/Users/campbell/CLionProjects/bake!/test/Bakefile"));

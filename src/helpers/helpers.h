@@ -27,6 +27,17 @@ char** get_file_string(char*);
  *
  * @return
  */
-char* space_strip(char*);
+void space_strip(char*, char*);
+
+/**
+ *
+ * @return
+ */
+void remove_from_array(char**,char**);
+
+char* str_replace(char*,char*,char*);
+
+//todo
+void* my_calloc(size_t);
 
 #endif //BAKE_HELPERS_H

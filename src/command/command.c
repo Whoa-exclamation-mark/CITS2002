@@ -20,7 +20,7 @@ void run_command(Command command){
             exit(EXIT_FAILURE);
         case 0:
             //Start the process on the child
-            execl(getenv("SHELL")!=NULL?getenv("SHELL"):"/bin/bash",command.command);
+            execl(getenv("SHELL")!=NULL?getenv("SHELL"):"/bin/bash","bash","-c",command.command);
         default: {
             int status;
             //Wait for the process to finish

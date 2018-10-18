@@ -6,6 +6,6 @@
 
 //need to create tree and then order commands correctly
 
-Command* getCommands(Target* targets){
-
+Command* getCommands(Target* target){
+    //create a stack and push on it
 }

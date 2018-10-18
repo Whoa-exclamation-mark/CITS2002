@@ -19,7 +19,7 @@ typedef struct target Target;
 
 struct command {
     //THIS IS NOT AN ARRAY JUST ONLY A POINTER TO THE TARGET ITSELF!
-    struct target* parent;
+    Target* parent;
     char* command;
     //This is a boolean!
     bool output_command;
