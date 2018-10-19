@@ -9,6 +9,6 @@
 
 Target* lexianate(char**);
 
-Variable* variables;
+extern Variable* variables[100];
 
 #endif //BAKE_LEXICON_H

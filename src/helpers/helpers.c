@@ -46,7 +46,7 @@ char** get_file_string(char* file){
     while (*string) i += *(string++) == '\n';
 
 
-    char **finalString_2 = my_malloc(i + 1);
+    char **finalString_2 = calloc(i + 1,i+1);
 
     string = orginal_string;
     char buff[BUFSIZ] = {0};
@@ -55,12 +55,12 @@ char** get_file_string(char* file){
         while (fgets(buff, sizeof(buff), _file)){
             finalString_2[v] = calloc(sizeof(buff),sizeof(buff));
             strcpy(finalString_2[v],buff);
-            finalString_2[v][strlen(finalString_2[v])-1]='\0';
+            if(finalString_2[v][strlen(finalString_2[v])-1]=='\n')finalString_2[v][strlen(finalString_2[v])-1]='\0';
             v++;
         }
     }
 
-    finalString_2[v+1] = NULL;
+    finalString_2[v] = NULL;
 
 
     return finalString_2;
@@ -73,6 +73,7 @@ void space_strip(char* string, char* dest){
 
     if(length==0){
         dest="\0";
+        return;
     }
 
     int spaceNumBegin = 0;
@@ -81,7 +82,7 @@ void space_strip(char* string, char* dest){
 
     //from beginning
     for(int i = 0; i<length;i++){
-        if(*(string+i) == ' '){
+        if(*(string+i) == ' ' || *(string+i) == '\t'){
             spaceNumBegin++;
             continue;
         }
@@ -90,7 +91,7 @@ void space_strip(char* string, char* dest){
 
     //from end
     for(int i = length-1; i>0;--i){
-        if(*(string+i) == ' '){
+        if(*(string+i) == ' '||*(string+i) == '\t'){
             spaceNumEnd++;
             continue;
         }
@@ -101,9 +102,11 @@ void space_strip(char* string, char* dest){
     //char * new_string = my_malloc(length - spaceNumBegin - spaceNumEnd);
 
     //strip space from left and right side
-    for(int i=spaceNumBegin; i<length-spaceNumEnd; i++){
+    int i = spaceNumBegin;
+    for(; i<length-spaceNumEnd; i++){
         dest[i-spaceNumBegin] = *(string+i);
     }
+    dest[i-spaceNumBegin]='\0';
 }
 
 void remove_from_array(char** array, char** needle){
