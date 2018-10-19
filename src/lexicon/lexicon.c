@@ -7,15 +7,13 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "../helpers/helpers.h"
+#include <unistd.h>
+#include <limits.h>
+#include "../phaser/phaser.h"
 
 Variable* variables[100] = {0};
 
 void sanitize(char** strings){
-    //remove any issues from the string
-
-    //find end of array
-
-
 
     char** original_pointer = strings;
 
@@ -26,14 +24,9 @@ void sanitize(char** strings){
         strings++;
     }
 
-    //strings--;
-    //Remove any blank lines
-
     strings--;
     while((strings != original_pointer)){
-        //printf("%s\n", *strings);
         if(*strings!= NULL && *strings[0]!='\0' && *(*strings+strlen(*strings)-1)=='\\') {
-            //printf("Found wrapping line\n");
             *(*strings+strlen(*strings)-1)='\0';
             char * data = calloc(BUFSIZ*2,BUFSIZ*2);
             space_strip(*(strings+1),*(strings+1));
@@ -42,9 +35,6 @@ void sanitize(char** strings){
             remove_from_array(original_pointer,strings+1);
         }
         strings--;
-
-
-        //strings++;
     }
 
     strings = original_pointer;
@@ -63,8 +53,6 @@ void sanitize(char** strings){
             strings++;
         }
     }
-
-    strings = original_pointer;
 
 }
 
@@ -98,9 +86,11 @@ void find_variables(char** strings){
 void replace_variable(char** strings){
     char** original_pointer = strings;
     while(*strings){
+        //todo figure out what to do with action lines that have things like echo 1+1=2
         char * org_str = *strings;
         while (**strings){
             if(**strings == '$' && *(*strings+1) == '('){
+                char* value;
                 char * subStr = strstr(*strings, ")");
                 if(subStr == NULL)
                     continue;
@@ -113,22 +103,46 @@ void replace_variable(char** strings){
                 strcat(str_rep,var_name);
                 strcat(str_rep,")");
                 while (*var){
-                    char * value = strdup((*var)->value);
                     char * name = strdup((*var)->name);
                     if(strcmp(name, var_name)==0){
-                        org_str = str_replace(org_str,str_rep,value);
+                        value = strdup((*var)->value);
                         found = true;
                         break;
                     }
                     var++;
                 };
-                if(!found && getenv(var_name)!=NULL){
-                    org_str = str_replace(org_str,str_rep,getenv(var_name));
+                if(strcmp(var_name,"PID") == 0){
+                    char buffer[sizeof(int) * 4 + 1];
+                    sprintf(buffer, "%d", getpid());
+                    value = strdup(buffer);
+                    found = true;
+                }
+                else if(strcmp(var_name,"PPID") == 0){
+                    char buffer[sizeof(int) * 4 + 1];
+                    sprintf(buffer, "%d", getppid());
+                    value = strdup(buffer);
+                    found = true;
+                }
+                else if(strcmp(var_name,"PWD") == 0){
+                    char cwd[PATH_MAX];
+                    getcwd(cwd,PATH_MAX);
+                    value = strdup(cwd);
+                    found = true;
+                }
+                else if(strcmp(var_name,"RAND") == 0){
+                    char buffer[sizeof(int) * 4 + 1];
+                    sprintf(buffer, "%d", rand());
+                    value = strdup(buffer);
+                    found = true;
+                }
+                else if(!found && getenv(var_name)!=NULL){
+                    value = getenv(var_name);
                     found = true;
                 }else if(!found){
                     printf("Error: Unknown Variable %s", var_name);
-                    org_str = str_replace(org_str,str_rep,"");
+                    value = "";
                 }
+                org_str = str_replace(org_str,str_rep,value);
             }
             (*strings)++;
         }
@@ -138,19 +152,65 @@ void replace_variable(char** strings){
     //replace the found variables
 }
 
-Target* phase(char** strings){
-    return NULL;
+void phase(char** strings){
+    //Target* data[100]={0};
+    int i=0;
+    while (*strings){
+        if(*strings[0]!='\t'){
+            char* dependencies = strchr(*strings,':');
+            if(dependencies!=NULL){
+                data[i] = calloc(sizeof(Target), sizeof(Target));
+                //todo space strip
+                char* char_raw = strndup(*strings,dependencies-*strings);
+                char* char_data = calloc(sizeof(char_raw), sizeof(char_raw));
+                space_strip(char_raw,char_data);
+                data[i]->name = char_data;
+
+                char_raw = strdup(dependencies+1);
+                char_data = calloc(sizeof(char_raw), sizeof(char_raw));
+                space_strip(char_raw,char_data);
+                data[i]->raw_dependencies = char_data;
+
+                char** sub_point = strings;
+
+                while (*sub_point[0]!='\t'){
+                    sub_point++;
+                }
+
+                int num_command = (int) (sub_point - strings);
+
+                data[i]->raw_commands = calloc(num_command+1,num_command+1);
+
+                //we are assuming that all targets have at least 1 command
+                strings++;
+                for (int j = 0; j < num_command; ++j) {
+                    char *strip_str = calloc(BUFSIZ * 2, BUFSIZ * 2);
+                    space_strip(*(strings+j), strip_str);
+                    data[i]->raw_commands[j] = strip_str;
+                }
+
+                i++;
+            }
+        };
+        strings++;
+    }
+
+    //return data;
     //Convert into struct type
 }
 
-Target* lexianate(char** strings){
+void lexianate(char** strings){
     sanitize(strings);
     find_variables(strings);
     replace_variable(strings);
+    //todo get this to be operated by a command line arg
+
+
+    phase(strings);
+
+    //printf("%s-%s\n", data[0]->name, data[0]->raw_dependencies);
 
     while (*strings!=NULL){
         printf("%s\n",*strings); strings++;
     };
-
-    return phase(strings);
 }

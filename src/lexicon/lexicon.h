@@ -7,7 +7,7 @@
 #ifndef BAKE_LEXICON_H
 #define BAKE_LEXICON_H
 
-Target* lexianate(char**);
+void lexianate(char**);
 
 extern Variable* variables[100];
 

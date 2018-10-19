@@ -9,6 +9,7 @@
 
 struct target {
     char* name;
+    char* raw_dependencies;
     char** raw_commands;
     struct target* dependencies;
     struct command* commands;

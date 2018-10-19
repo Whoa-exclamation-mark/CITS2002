@@ -7,6 +7,8 @@
 #ifndef BAKE_PHASER_H
 #define BAKE_PHASER_H
 
-Command* getCommands(Target*);
+Command* getCommands(char*);
+
+extern Target* data[100];
 
 #endif //BAKE_PHASER_H

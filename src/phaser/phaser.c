@@ -6,6 +6,11 @@
 
 //need to create tree and then order commands correctly
 
-Command* getCommands(Target* target){
+Target* data[100]={0};
+
+Command* getCommands(char* target){
+
+    //attach all dependencies
+
     //create a stack and push on it
 }
