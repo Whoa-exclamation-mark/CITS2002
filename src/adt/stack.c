@@ -8,6 +8,7 @@
 #include <stdio.h>
 #include "stack.h"
 #include "../logger/logger.h"
+#include "../helpers/helpers.h"
 
 /**
  *  Implementation pop/push at top
@@ -20,7 +21,7 @@ stack *create()
 {
     stack *s;
     //Create a part of memory for the stack
-    s = (stack *) calloc(sizeof(stack), sizeof(stack));
+    s = (stack *) my_calloc(sizeof(stack));
     //The top of the stack should be null
     *s = NULL;
     //Return the stack
@@ -49,7 +50,7 @@ void push(stack *s, void *object)
 {
     //Create a new link for the item
     item *new_item;
-    new_item = (item *) calloc(sizeof(item),sizeof(item));
+    new_item = (item *) my_calloc(sizeof(item));
     //Attach the previous link to the new link
     new_item->content=object;
     new_item->next=*s;

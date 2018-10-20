@@ -6,10 +6,19 @@
 #ifndef BAKE_LOGGER_H
 #define BAKE_LOGGER_H
 
+/**
+ * Error log
+ */
 void error(char*,...);
 
+/**
+ * Warning log
+ */
 void warn(char*,...);
 
+/**
+ * Information log
+ */
 void info(char*,...);
 
 

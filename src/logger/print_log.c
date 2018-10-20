@@ -6,9 +6,15 @@
 #include <stdio.h>
 #include <unistd.h>
 #include <stdarg.h>
+#include <stdbool.h>
 #include "logger.h"
+#include "../constants.h"
 
 void error(char* format,...){
+    //Check if we are in silent mode
+    if(SILENT)
+        return;
+    //Now print the log to stderr if we aren't in silent mode
     va_list argptr;
     va_start(argptr, format);
     vfprintf(stderr, format, argptr);
@@ -16,6 +22,10 @@ void error(char* format,...){
 }
 
 void warn(char* format,...){
+    //Check if we are in silent mode
+    if(SILENT)
+        return;
+    //Now print the log to stdout if we aren't in silent mode
     va_list argptr;
     va_start(argptr, format);
     vfprintf(stdout, format, argptr);
@@ -23,6 +33,10 @@ void warn(char* format,...){
 }
 
 void info(char* format,...){
+    //Check if we are in silent mode
+    if(SILENT)
+        return;
+    //Now print the log to stdout if we aren't in silent mode
     va_list argptr;
     va_start(argptr, format);
     vfprintf(stdout, format, argptr);

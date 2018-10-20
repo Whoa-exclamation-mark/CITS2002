@@ -13,8 +13,8 @@ haversine : haversine.o calculation.o conversions.o validation.o http://teaching
 haversine.o : haversine.c haversine.h
 	$(C99) $(CFLAGS) -c haversine.c
 
-calculation.o : calculation.c haversine.h
-	$(C99) $(CFLAGS) -c calculation.c
+calculation.o : calc/calculation.c haversine.h
+	$(C99) $(CFLAGS) -c calc/calculation.c
 
 conversions.o : conversions.c haversine.h
 	$(C99) $(CFLAGS) -c conversions.c
@@ -23,5 +23,5 @@ validation.o : validation.c haversine.h
 	$(C99) $(CFLAGS) -c validation.c
 
 clean:
-	-rm -rf haversine *.o
+	rm -rf haversine *.o
 

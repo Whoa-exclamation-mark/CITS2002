@@ -12,41 +12,43 @@
 #define end_of_line '\n'
 #endif
 /**
- *
- * @param bytes
- * @return
+ * A helper function to allocate memory but check if it has been allocated, else exit as fatal issue
+ * @return pointer to allocated space
  */
-void *my_malloc(size_t bytes);
+void* my_malloc(size_t);
 
 /**
- *
- * @return
+ * A helper function to allocate memory and zero it out but check if it has been allocated, else exit as fatal issue
+ * @return pointer to allocated space
+ */
+void* my_calloc(size_t);
+
+/**
+ * Get a full file in a string array without \n
+ * @return the array of strings
  */
 char** get_file_string(char*);
 
 /**
- *
- * @return
+ * Strip white space from strings (" " and "\t"). It requires input string and a destination buffer
  */
 void space_strip(char*, char*);
 
 /**
- *
- * @return
+ * Removes a given pointer from an array
  */
-void remove_from_array(char**,char**);
-
-char* str_replace(char*,char*,char*);
-
-//todo
-void* my_calloc(size_t);
+void remove_from_array(void**,void**);
 
 /**
- *
- * @param array
- * @param item
+ * Replaces in a string with a needle and the replacement
+ * @return the changed string (address changes!)
  */
-void push_on_array(void** array, void* item);
+char* str_replace(char*,char*,char*);
+
+/**
+ * Push a given item onto a null terminated array. WARNING - This has no checks for the length of the array. Be careful!
+ */
+void push_on_array(void**, void*);
 
 
 #endif //BAKE_HELPERS_H

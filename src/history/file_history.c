@@ -9,11 +9,15 @@
 #include "history.h"
 
 bool is_file_up_to_date(char* filename, Target* target){
+    //Minus the file modified with the target and if it is greater than 0 then we need to recompile it
     return get_file_date(filename)->tv_sec - get_file_date(target->name)->tv_sec>=0;
 };
 
 struct timespec* get_file_date(char* filename){
+    //Make a struct location for stat
     struct stat attrib;
+    //Get stat
     stat(filename, &attrib);
+    //Get modified time spec
     return &(attrib.st_mtimespec);
 }

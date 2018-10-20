@@ -11,13 +11,13 @@
 #include "../logger/logger.h"
 #include "../constants.h"
 
+//todo check if we need to pass output to screen
 void exec_command(Command* command){
     //Are we running in print command only? If so then return straight away
     if (RUN_WO_EXEC) return;
     //Print out each command if the user has specified in an action line
     if(command->output_command == true){
         info("%s\n",command->command);
-
     }
     //Start the execution of the command
     switch (fork()){

@@ -8,6 +8,9 @@
 #ifndef BAKE_DATATYPES_H
 #define BAKE_DATATYPES_H
 
+/**
+ * This defines a target structure use in Bake!
+ */
 struct target {
     char* name;
     char* raw_dependencies;
@@ -19,6 +22,9 @@ struct target {
 
 typedef struct target Target;
 
+/**
+ * This defines a command structure use in Bake!
+ */
 struct command {
     Target* parent;
     char* command;
@@ -29,6 +35,9 @@ struct command {
 
 typedef struct command Command;
 
+/**
+ * This defines a variables structure use in Bake!
+ */
 struct variable{
     char* name;
     char* value;
