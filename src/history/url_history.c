@@ -1,11 +1,13 @@
-//
-// Created by Campbell Millar on 17/10/18.
-//
+/* CITS2002 Project 2018
+   Name(s):		Campbell J.H. Millar
+   Student number(s):	22510848
+ */
 
 #include <string.h>
-#include "history.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include "history.h"
+#include "../logger/logger.h"
 
 bool is_url(char* filename){
     return strstr(filename,"http://") != NULL
@@ -25,7 +27,7 @@ bool is_url_up_to_date(char* url, Target* target){
 
     fp = popen(command, "r");
     if (fp == NULL) {
-        printf("Failed to fetch URL (command failed)\n" );
+        error("ERROR: Failed to fetch URL (command failed)\n" );
         return false;
     }
 

@@ -1,15 +1,16 @@
-//
-// Created by Campbell Millar on 2/10/18.
-//
+/* CITS2002 Project 2018
+   Name(s):		Campbell J.H. Millar
+   Student number(s):	22510848
+ */
 
 #ifndef BAKE_LOGGER_H
 #define BAKE_LOGGER_H
 
-void error(char* string);
+void error(char*,...);
 
-void warn(char* string);
+void warn(char*,...);
 
-void info(char* string);
+void info(char*,...);
 
 
 #endif //BAKE_LOGGER_H

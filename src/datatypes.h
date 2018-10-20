@@ -1,6 +1,7 @@
-//
-// Created by Campbell Millar on 20/9/18.
-//
+/* CITS2002 Project 2018
+   Name(s):		Campbell J.H. Millar
+   Student number(s):	22510848
+ */
 
 #include <stdbool.h>
 
@@ -13,18 +14,14 @@ struct target {
     char** raw_commands;
     struct target** dependencies;
     char** file_dependencies;
-    //struct command* commands;
-    //bool has_failed;
     bool rebuild;
 };
 
 typedef struct target Target;
 
 struct command {
-    //THIS IS NOT AN ARRAY JUST ONLY A POINTER TO THE TARGET ITSELF!
     Target* parent;
     char* command;
-    //This is a boolean!
     bool output_command;
     bool continue_on_error;
     bool should_run;

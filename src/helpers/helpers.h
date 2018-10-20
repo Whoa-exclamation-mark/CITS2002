@@ -1,6 +1,7 @@
-//
-// Created by Campbell Millar on 18/9/18.
-//
+/* CITS2002 Project 2018
+   Name(s):		Campbell J.H. Millar
+   Student number(s):	22510848
+ */
 
 #ifndef BAKE_HELPERS_H
 #define BAKE_HELPERS_H
@@ -40,6 +41,11 @@ char* str_replace(char*,char*,char*);
 //todo
 void* my_calloc(size_t);
 
+/**
+ *
+ * @param array
+ * @param item
+ */
 void push_on_array(void** array, void* item);
 
 

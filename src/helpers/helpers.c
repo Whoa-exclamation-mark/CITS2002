@@ -1,17 +1,30 @@
-//
-// Created by Campbell Millar on 18/9/18.
-//
+/* CITS2002 Project 2018
+   Name(s):		Campbell J.H. Millar
+   Student number(s):	22510848
+ */
 
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
 #include <stdbool.h>
+#include <unistd.h>
 #include "helpers.h"
+#include "../logger/logger.h"
+
 
 void* my_malloc(size_t size){
     void* alloc = malloc(size);
     if(alloc == NULL){
-        printf("Attempted to allocate %i byte of memory but failed.", (int) size);
+        error("ERROR: Attempted to allocate %i byte of memory but failed.", (int) size);
+        exit(EXIT_FAILURE);
+    }
+    return alloc;
+}
+
+void* my_calloc(size_t size){
+    void* alloc = calloc(size,size);
+    if(alloc == NULL){
+        error("ERROR: Attempted to allocate %i byte of memory but failed.", (int) size);
         exit(EXIT_FAILURE);
     }
     return alloc;
@@ -26,6 +39,10 @@ char** get_file_string(char* file){
     long size;
     char *string;
 
+    if(file == "Bakefile" && access(file, F_OK)!=-1){
+        file = "bakefile";
+    }
+
     if((_file = fopen(file,"r"))!=NULL){
         //Go to the end of the file
         fseek(_file, 0, SEEK_END);
@@ -38,7 +55,7 @@ char** get_file_string(char* file){
         fread(string, (size_t) size, 1, _file);
         fclose(_file);
     } else{
-        printf("Could not open the Bakefile in read mode. Please make sure that the file exists and rerun Bake!");
+        error("ERROR: Could not open the %s in read mode. Please make sure that the file exists and rerun Bake!\n",file);
         exit(EXIT_FAILURE);
     }
 
@@ -99,8 +116,6 @@ void space_strip(char* string, char* dest){
         break;
     }
 
-    //printf("%i\n",(length - spaceNumBegin - spaceNumEnd));
-    //char * new_string = my_malloc(length - spaceNumBegin - spaceNumEnd);
 
     //strip space from left and right side
     int i = spaceNumBegin;

@@ -1,0 +1,15 @@
+ALL	= list hashtable
+
+C99	= cc -std=c99 -Wall -Werror -pedantic
+
+all:	$(ALL)
+
+list: list.c
+	$(C99) -o list list.c
+
+hashtable: hashtable.c
+	$(C99) -o hashtable hashtable.c
+
+
+clean:
+	rm -f $(ALL)

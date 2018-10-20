@@ -1,6 +1,7 @@
-//
-// Created by Campbell Millar on 20/9/18.
-//
+/* CITS2002 Project 2018
+   Name(s):		Campbell J.H. Millar
+   Student number(s):	22510848
+ */
 
 #include "../datatypes.h"
 #include "../constants.h"
@@ -9,6 +10,8 @@
 #define BAKE_LEXICON_H
 
 void lexianate(char**);
+
+//bool is_target(char *);
 
 extern Variable* variables[MAX_VAR];
 

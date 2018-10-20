@@ -1,13 +1,15 @@
-//
-// Created by Campbell Millar on 20/9/18.
-//
+/* CITS2002 Project 2018
+   Name(s):		Campbell J.H. Millar
+   Student number(s):	22510848
+ */
 
 #include <stdio.h>
+#include <unistd.h>
 #include "runner.h"
 #include "../history/history.h"
 #include "../phaser/phaser.h"
 #include "../command/command.h"
-#include <unistd.h>
+#include "../logger/logger.h"
 
 //Manages the exec of the commands (not running itself)
 
@@ -61,8 +63,8 @@ void run_commands(){
     //todo make this a arg option
     while (*command_index){
         Command* command = *command_index;
-        if(command->should_run)
-            printf("%s%s%s\n",command->command, command->continue_on_error?" (no error)":"", command->output_command?" (out)":"");
+        if(command->should_run && RUN_WO_EXEC)
+            info("%s%s%s\n",command->command, command->continue_on_error?" (no error)":"", command->output_command?" (out)":"");
         command_index++;
     }
 

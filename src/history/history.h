@@ -1,6 +1,7 @@
-//
-// Created by Campbell Millar on 21/9/18.
-//
+/* CITS2002 Project 2018
+   Name(s):		Campbell J.H. Millar
+   Student number(s):	22510848
+ */
 
 #ifndef BAKE_HISTORY_H
 #define BAKE_HISTORY_H

@@ -1,6 +1,7 @@
-//
-// Created by Campbell Millar on 20/9/18.
-//
+/* CITS2002 Project 2018
+   Name(s):		Campbell J.H. Millar
+   Student number(s):	22510848
+ */
 
 #include <string.h>
 #include <stdio.h>
@@ -10,6 +11,7 @@
 #include "../helpers/helpers.h"
 #include "../history/history.h"
 #include "../runner/runner.h"
+#include "../logger/logger.h"
 
 //need to create tree and then order commands correctly
 
@@ -54,13 +56,12 @@ void attach_dependencies(char* target){
                 while( token != NULL ) {
                     char* striped = calloc(strlen(token),strlen(token));
                     space_strip(token, striped);
-                    //printf("%s \n", striped);
                     if(is_target(striped)){
                         push_on_array((void **) (*trg_point)->dependencies, find_target(striped));
                     } else if(is_file_or_url(striped)){
                         push_on_array((void **) (*trg_point)->file_dependencies, striped);
                     } else{
-                        printf("ERROR: %s not a target or file!\n", striped);
+                        error("ERROR: %s not a target or file!\n", striped);
                     }
                     push(depen_stack, striped);
                     token = strtok(NULL, " ");
@@ -69,6 +70,8 @@ void attach_dependencies(char* target){
             trg_point++;
         }
         trg_point = data;
+
+
     }
 }
 
@@ -88,9 +91,7 @@ int attach_commands(char* target, stack* command_stack){
         char** raw_commands = data_target->raw_commands;
 
         while (*raw_commands){
-            //printf("%s\n",*raw_commands);
             Command* command = calloc(sizeof(command), sizeof(command));
-            //todo check the @ and other junk
 
             char* modifiers = strndup(*raw_commands,3);
             modifiers[2] = '\0';
@@ -127,27 +128,55 @@ int attach_commands(char* target, stack* command_stack){
             children++;
         }
 
+        if(RUN_INTERP){
+            info("%s : ", data_target->name);
+            Target** curr_children = data_target->dependencies;
+            while (*curr_children){
+                info("%s ",(*curr_children)->name);
+                curr_children++;
+            }
+            char ** files = data_target->file_dependencies;
+            while (*files){
+                info(*files);
+                files++;
+            }
+            info("\n");
+            char** commands = data_target->raw_commands;
+            while (*commands){
+                info("\t%s\n",*commands);
+                commands++;
+            }
+        }
     }
     return num_command;
 }
 
 void setCommands(char* target){
 
+    if(target == NULL) target = data[0]->name;
+
     if(!is_target(target)){
-        printf("ERROR: Target %s is not a valid target", target);
+        error("ERROR: Target %s is not a valid target", target);
         exit(EXIT_FAILURE);
     }
 
     attach_dependencies(target);
 
+    //Target** target_data = data;
+
+
+
     stack* command_stack = create();
 
     int num_command = attach_commands(target, command_stack);
 
-
+    if(RUN_INTERP){
+        info("--- Interpreted Success ---");
+        exit(EXIT_SUCCESS);
+    }
 
     if(num_command > MAX_ACTIONS){
-        printf("ERROR: Number of actions exceed the hard limit of %d",MAX_ACTIONS);
+        error("ERROR: Number of actions exceed the hard limit of %d",MAX_ACTIONS);
         exit(EXIT_FAILURE);
     };
 

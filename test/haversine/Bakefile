@@ -23,5 +23,5 @@ validation.o : validation.c haversine.h
 	$(C99) $(CFLAGS) -c validation.c
 
 clean:
-	rm -rf haversine *.o
+	-rm -rf haversine *.o
 

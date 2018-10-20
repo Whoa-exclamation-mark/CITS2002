@@ -1,9 +1,10 @@
-//
-// Created by Campbell Millar on 20/10/18.
-//
+/* CITS2002 Project 2018
+   Name(s):		Campbell J.H. Millar
+   Student number(s):	22510848
+ */
 
-#include "history.h"
 #include <unistd.h>
+#include "history.h"
 
 bool is_file_or_url(char* filename){
     return is_url(filename) || is_file(filename);
