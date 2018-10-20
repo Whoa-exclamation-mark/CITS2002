@@ -38,7 +38,7 @@ void* my_calloc(size_t size){
 
 char** get_file_string(char* file){
     //Check if the file exists (Bakefile) and if it doesn't try bakefile instead
-    if(file == "Bakefile" && access(file, F_OK)!=-1){
+    if(strcmp("Bakefile",file) == 0 && access(file, F_OK)!=-1){
         file = "bakefile";
     }
     //Create a pointer for the file struct
@@ -75,7 +75,7 @@ char** get_file_string(char* file){
     while (*string) i += *(string++) == '\n';
 
     //Allocate a new array of strings with length lines in the file + 1 (null byte)
-    char **finalString = my_calloc(i + 1);
+    char **finalString = my_calloc((size_t) (i + 1));
 
     //Create a buffer for reading each line in
     char buff[BUFSIZ] = {0};
@@ -183,17 +183,19 @@ char *str_replace(char *orig, char *rep, char *with) {
     // sanity checks and initialization
     if (!orig || !rep)
         return NULL;
-    len_rep = strlen(rep);
+    len_rep = (int) strlen(rep);
     if (len_rep == 0)
         return NULL; // empty rep causes infinite loop during count
     if (!with)
         with = "";
-    len_with = strlen(with);
+    len_with = (int) strlen(with);
 
     // count the number of replacements needed
     ins = orig;
-    for (count = 0; tmp = strstr(ins, rep); ++count) {
+    tmp = strstr(ins, rep);
+    for (count = 0; tmp; ++count) {
         ins = tmp + len_rep;
+        tmp = strstr(ins, rep);
     }
 
     tmp = result = my_malloc(strlen(orig) + (len_with - len_rep) * count + 1);
@@ -208,7 +210,7 @@ char *str_replace(char *orig, char *rep, char *with) {
     //    orig points to the remainder of orig after "end of rep"
     while (count--) {
         ins = strstr(orig, rep);
-        len_front = ins - orig;
+        len_front = (int) (ins - orig);
         tmp = strncpy(tmp, orig, len_front) + len_front;
         tmp = strcpy(tmp, with) + len_with;
         orig += len_front + len_rep; // move to next "end of rep"

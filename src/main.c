@@ -31,7 +31,7 @@ void usage(char option){
     //Print out usage infomation
     info("OVERVIEW: %s %s\n",APP_NAME,VERSION);
     //If this was because of a unknown option then print that they don't know what they are doing
-    if(option!=NULL) error("ERROR: Unknown option %c",option);
+    if(option!=0) error("ERROR: Unknown option %c",option);
     info("\nUSAGE: bake [options] target\n\n");
     info("OPTIONS:\n"
            "\t-C\t\tSet working directory of Bake! (default to current one)\n"
@@ -42,7 +42,7 @@ void usage(char option){
            "\t-s\t\tRun Bake! in silent mode\n"
            "\t-h\t\tShow this message again\n");
     //If they don't know what they where doing then it is a fatal error but if it was just usage info then not fatal
-    exit(option!=NULL?EXIT_FAILURE:EXIT_SUCCESS);
+    exit(option!=0?EXIT_FAILURE:EXIT_SUCCESS);
 }
 
 int main(int argc, char *argv[]) {
@@ -81,11 +81,11 @@ int main(int argc, char *argv[]) {
                 break;
             //If it is h then print help usage
             case 'h':
-                usage(NULL);
+                usage(0);
                 break;
             //Else they are a numpty and we need to print usage
             default:{
-                usage(opt);
+                usage((char) opt);
                 break;
             }
         }

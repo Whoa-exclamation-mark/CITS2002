@@ -7,6 +7,7 @@
 #include <time.h>
 #include <stdio.h>
 #include "history.h"
+#include "../helpers/helpers.h"
 
 bool is_file_up_to_date(char* filename, Target* target){
     //Minus the file modified with the target and if it is greater than 0 then we need to recompile it
@@ -15,9 +16,9 @@ bool is_file_up_to_date(char* filename, Target* target){
 
 struct timespec* get_file_date(char* filename){
     //Make a struct location for stat
-    struct stat attrib;
+    struct stat* attrib = my_malloc(sizeof(struct stat));
     //Get stat
-    stat(filename, &attrib);
+    stat(filename, attrib);
     //Get modified time spec
-    return &(attrib.st_mtimespec);
+    return &(attrib->st_mtimespec);
 }

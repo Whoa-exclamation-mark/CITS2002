@@ -26,7 +26,7 @@ history.o: src/history/history.c src/history/history.h
 url_history.o: src/history/url_history.c src/history/history.h src/logger/logger.h src/helpers/helpers.h
 	$(C99) $(CFLAGS) -c src/history/url_history.c
 
-file_history.o: src/history/file_history.c src/history/history.h
+file_history.o: src/history/file_history.c src/history/history.h src/helpers/helpers.h
 	$(C99) $(CFLAGS) -c src/history/file_history.c
 
 helpers.o: src/helpers/helpers.c src/helpers/helpers.h src/logger/logger.h

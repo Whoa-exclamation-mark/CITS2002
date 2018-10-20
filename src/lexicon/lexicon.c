@@ -54,7 +54,7 @@ void sanitize(char** strings){
             //Make the new buffer the data for the line
             *strings = data;
             //Remove the the next line from the array
-            remove_from_array(original_pointer,strings+1);
+            remove_from_array((void **) original_pointer, (void **) (strings + 1));
         }
         //Move down the array
         strings--;
@@ -76,7 +76,7 @@ void sanitize(char** strings){
         //Check if we have a blank line
         if (strip_str[0] == '\0' || *strings[0] == '\0') {
             //Remove the line from the array
-            remove_from_array(original_pointer, strings);
+            remove_from_array((void **) original_pointer, (void **) strings);
         } else {
             //Move if we didn't have a blank line
             strings++;
@@ -116,7 +116,7 @@ void find_variables(char** strings){
             //Copy the var value
             variables[i]->value = strdup(strip_str_1);
             //Remove the line from the string array
-            remove_from_array(orignal_str,strings);
+            remove_from_array((void **) orignal_str, (void **) strings);
             //Increment var index
             i++;
         } else{
@@ -281,7 +281,7 @@ void phase(char** strings){
                 num_command = (int) (sub_point - strings-1);
 
                 //Assign space for the array (not sure about +3 todo why is this the case)
-                data[i]->raw_commands = my_calloc(num_command+3);
+                data[i]->raw_commands = my_calloc((size_t) (num_command + 3));
 
                 //Increment strings as it is pointing one far back
                 strings++;
