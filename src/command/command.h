@@ -3,10 +3,12 @@
 //
 
 #include "../datatypes.h"
+#include "../constants.h"
 
 #ifndef BAKE_COMMAND_H
 #define BAKE_COMMAND_H
 
-void run_command(Command);
+void exec_command(Command*);
+
 
 #endif //BAKE_COMMAND_H

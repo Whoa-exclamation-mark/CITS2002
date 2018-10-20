@@ -5,9 +5,6 @@
 #ifndef BAKE_LOGGER_H
 #define BAKE_LOGGER_H
 
-
-#define APP_NAME "Bake!"
-
 void error(char* string);
 
 void warn(char* string);

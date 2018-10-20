@@ -10,8 +10,9 @@
 #include <unistd.h>
 #include <limits.h>
 #include "../phaser/phaser.h"
+#include "../constants.h"
 
-Variable* variables[100] = {0};
+Variable* variables[MAX_VAR] = {0};
 
 void sanitize(char** strings){
 
@@ -58,7 +59,7 @@ void sanitize(char** strings){
 
 void find_variables(char** strings){
     //Go through each line and if line has a tab to start then disc. line else see if it has an equals sign
-    Variable *var[100] = {0};
+    //Variable *var[100] = {0};
     char ** orignal_str = strings;
     int i=0;
     while(*strings){
@@ -84,7 +85,7 @@ void find_variables(char** strings){
 }
 
 void replace_variable(char** strings){
-    char** original_pointer = strings;
+    //char** original_pointer = strings;
     while(*strings){
         //todo figure out what to do with action lines that have things like echo 1+1=2
         char * org_str = *strings;
@@ -188,6 +189,12 @@ void phase(char** strings){
                     space_strip(*(strings+j), strip_str);
                     data[i]->raw_commands[j] = strip_str;
                 }
+
+                data[i]->dependencies = calloc(MAX_TARGETS, MAX_TARGETS);
+
+                data[i]->rebuild = false;
+
+                data[i]->file_dependencies = calloc(MAX_ACTIONS, MAX_ACTIONS);
 
                 i++;
             }

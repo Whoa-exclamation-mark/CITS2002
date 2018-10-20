@@ -5,7 +5,7 @@ C99     =  cc -std=c99
 CFLAGS  =  -Wall -pedantic -Werror
 
 
-haversine : haversine.o calculation.o conversions.o validation.o
+haversine : haversine.o calculation.o conversions.o validation.o http://teaching.csse.uwa.edu.au/units/CITS2002/project/dependency-5m
 	$(C99) $(CFLAGS) -o haversine \
 		haversine.o calculation.o conversions.o validation.o -lm
 

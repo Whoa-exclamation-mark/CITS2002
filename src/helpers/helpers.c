@@ -5,6 +5,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#include <stdbool.h>
 #include "helpers.h"
 
 void* my_malloc(size_t size){
@@ -166,3 +167,11 @@ char *str_replace(char *orig, char *rep, char *with) {
     strcpy(tmp, orig);
     return result;
 }
+//here be dragons - be careful!
+void push_on_array(void** array, void* item){
+    while (*array){
+        array++;
+    }
+    *array = item;
+}
+

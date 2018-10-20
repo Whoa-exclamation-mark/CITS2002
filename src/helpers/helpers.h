@@ -40,4 +40,7 @@ char* str_replace(char*,char*,char*);
 //todo
 void* my_calloc(size_t);
 
+void push_on_array(void** array, void* item);
+
+
 #endif //BAKE_HELPERS_H

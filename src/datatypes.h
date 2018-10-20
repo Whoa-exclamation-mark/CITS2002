@@ -11,9 +11,11 @@ struct target {
     char* name;
     char* raw_dependencies;
     char** raw_commands;
-    struct target* dependencies;
-    struct command* commands;
-    bool has_failed;
+    struct target** dependencies;
+    char** file_dependencies;
+    //struct command* commands;
+    //bool has_failed;
+    bool rebuild;
 };
 
 typedef struct target Target;
@@ -25,6 +27,7 @@ struct command {
     //This is a boolean!
     bool output_command;
     bool continue_on_error;
+    bool should_run;
 };
 
 typedef struct command Command;
