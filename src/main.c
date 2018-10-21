@@ -31,7 +31,7 @@ void usage(char option){
     //Print out usage infomation
     info("OVERVIEW: %s %s\n",APP_NAME,VERSION);
     //If this was because of a unknown option then print that they don't know what they are doing
-    if(option!=0) error("ERROR: Unknown option %c",option);
+    if(option!=0) error("\nERROR: Unknown option\n");
     info("\nUSAGE: bake [options] target\n\n");
     info("OPTIONS:\n"
            "\t-C\t\tSet working directory of Bake! (default to current one)\n"

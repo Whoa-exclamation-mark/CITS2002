@@ -49,10 +49,10 @@ void run_commands(){
         Target* target = (*command_index)->parent;
         //Iterate over the file dependencies
         while (*files){
-            //Check if we should run the command by ensuring it is not up to date, \
-                we have access to it, \
-                we have previously needed to update,\
-                or we need a rebuild because of a child
+            //Check if we should run the command by ensuring it is not up to date,
+            //  we have access to it,
+            //  we have previously needed to update,
+            //  or we need a rebuild because of a child
             should_run_command = is_up_to_date(*files,target)
                     || access(target->name, F_OK)==-1
                     || should_run_command
@@ -79,7 +79,7 @@ void run_commands(){
         //See if we need to run it and if we are in no execute mode
         if(command->should_run && RUN_WO_EXEC)
             //Print out the command
-            info("%s%s%s - tags: \n",command->command, command->continue_on_error?" (no error)":"", command->output_command?" (out)":"");
+            info("%s \033[1mtags:%s%s\033[0m \n",command->command, command->continue_on_error?"(no error)":"", command->output_command?"(out)":"");
         //Move to next command
         command_index++;
     }

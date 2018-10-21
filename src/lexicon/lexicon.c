@@ -126,7 +126,6 @@ void find_variables(char** strings){
     }
 }
 
-//todo walk backwards through variable array (respect the bottom most variable)
 void replace_variable(char** strings){
     //Walk through string array
     while(*strings){
@@ -157,6 +156,10 @@ void replace_variable(char** strings){
                 strcat(str_rep,"$(");
                 strcat(str_rep,var_name);
                 strcat(str_rep,")");
+                //Go to end of var array
+                while (*var) var++;
+                //Go back one (as we are at the null byte)
+                var--;
                 //Iterate through the var array
                 while (*var){
                     //Get the name of the variable
@@ -169,8 +172,8 @@ void replace_variable(char** strings){
                         //End the loop
                         break;
                     }
-                    //Increment the var pointer
-                    var++;
+                    //Decrement the var pointer
+                    var--;
                 };
                 //Special variables
                 if(strcmp(var_name,"PID") == 0){

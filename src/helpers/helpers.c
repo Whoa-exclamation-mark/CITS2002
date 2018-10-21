@@ -169,7 +169,7 @@ void remove_from_array(void** array, void** needle){
     for(long i = index; i < length+1; ++i) {
         array[i] = array[i + 1];
     };
-};
+}
 
 char *str_replace(char *orig, char *rep, char *with) {
     char *result; // the return string
@@ -227,4 +227,3 @@ void push_on_array(void** array, void* item){
     //Make end equal to item (since we used malloc we don't need to null the next pointer - be careful about this!)
     *array = item;
 }
-

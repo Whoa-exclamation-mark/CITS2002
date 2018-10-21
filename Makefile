@@ -1,5 +1,11 @@
+# CITS2002 Project 2018
+# Name(s):		Campbell J.H. Millar
+# Student number(s):	22510848
+
+# Make/Bake file for building Bake!
+
 C99     =  cc -std=gnu99
-CFLAGS  =  -Wall -pedantic -Werror -g -std=gnu99 -w
+CFLAGS  =  -Wall -pedantic -Werror -g -std=c99
 
 bake : main.o runner.o phaser.o logger.o lexicon.o history.o helpers.o command.o stack.o url_history.o file_history.o
 	$(C99) $(CFLAGS) -o bake \

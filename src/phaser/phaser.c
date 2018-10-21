@@ -119,8 +119,8 @@ int attach_commands(char* target, stack* command_stack){
         while (*raw_commands){
             //Allocate memory for the command
             Command* command = my_calloc(sizeof(command));
-            //Now see if we have any modifiers - we only care about the first 2 characters - so only get the first 3 to\
-                terminate it
+            //Now see if we have any modifiers - we only care about the first 2 characters - so only get the first 3 to
+            //  terminate it
             char* modifiers = strndup(*raw_commands,3);
             //Null terminate the string
             modifiers[2] = '\0';
@@ -245,5 +245,4 @@ void setCommands(char* target){
         //Push onto the commands array
         push_on_array((void **) commands, command);
     }
-
 }

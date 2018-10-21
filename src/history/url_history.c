@@ -15,7 +15,7 @@ bool is_url(char* filename){
     return strstr(filename,"http://") != NULL
            || strstr(filename,"https://") != NULL
            || strstr(filename,"ftp://") != NULL;
-};
+}
 
 bool is_url_up_to_date(char* url, Target* target){
     //Create a file pointer
