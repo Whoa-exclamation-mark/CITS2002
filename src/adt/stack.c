@@ -39,7 +39,7 @@ void *peak(stack *s)
     //Check if we are empty (as we can't peak an empty stack)
     if(is_empty(s)==true)
     {
-        error("ERROR: Tried to peak at top of stack\n");
+        error("\033[31mERROR: Tried to peak at top of stack\033[0m\n");
         exit(1);
     }
     //Return the item
@@ -65,7 +65,7 @@ void* pop(stack *s)
     //Ensure that we are not poping an empty stack
     if(is_empty(s)==true)
     {
-        error("ERROR: Tried to pop on an empty stack\n");
+        error("\033[31mERROR: Tried to pop on an empty stack\033[0m\n");
         exit(1);
     }
     //Make the temp var the current item

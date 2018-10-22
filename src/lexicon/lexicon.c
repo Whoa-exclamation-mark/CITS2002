@@ -222,7 +222,7 @@ void replace_variable(char** strings){
                     found = true;
                 }else if(!found){
                     //We haven't found any var :(
-                    error("ERROR: Unknown Variable %s", var_name);
+                    error("\033[31mERROR: Unknown Variable %s\033[0m", var_name);
                     value = "";
                 }
                 //Replace the value and the $(NAME)
@@ -252,7 +252,6 @@ void phase(char** strings){
             if(dependencies!=NULL){
                 //Assign space to the target
                 data[i] = my_calloc(sizeof(Target));
-
                 //Get the name of the target
                 char* char_raw = strndup(*strings,dependencies-*strings);
                 //Assign space for space strip
@@ -283,8 +282,8 @@ void phase(char** strings){
                 //Number of commands present
                 num_command = (int) (sub_point - strings-1);
 
-                //Assign space for the array (not sure about +3 todo why is this the case)
-                data[i]->raw_commands = my_calloc((size_t) (num_command + 3));
+                //Assign space for the array
+                data[i]->raw_commands = my_calloc((size_t) sizeof(char *)*(num_command + 1));
 
                 //Increment strings as it is pointing one far back
                 strings++;
@@ -305,7 +304,7 @@ void phase(char** strings){
                 }
 
                 //Allocate space for dependencies
-                data[i]->dependencies = my_calloc(MAX_TARGETS);
+                data[i]->dependencies = my_calloc(MAX_TARGETS* sizeof(char*));
 
                 //Set the rebuildity to be false
                 data[i]->rebuild = false;

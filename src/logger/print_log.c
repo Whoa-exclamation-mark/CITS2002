@@ -4,7 +4,6 @@
  */
 
 #include <stdio.h>
-#include <unistd.h>
 #include <stdarg.h>
 #include <stdbool.h>
 #include "logger.h"
@@ -19,6 +18,7 @@ void error(char* format,...){
     va_start(argptr, format);
     vfprintf(stderr, format, argptr);
     va_end(argptr);
+    fflush(stderr);
 }
 
 void warn(char* format,...){
@@ -30,6 +30,7 @@ void warn(char* format,...){
     va_start(argptr, format);
     vfprintf(stdout, format, argptr);
     va_end(argptr);
+    fflush(stdout);
 }
 
 void info(char* format,...){
@@ -41,5 +42,6 @@ void info(char* format,...){
     va_start(argptr, format);
     vfprintf(stdout, format, argptr);
     va_end(argptr);
+    fflush(stdout);
 }
 

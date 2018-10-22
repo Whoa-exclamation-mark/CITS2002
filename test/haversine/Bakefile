@@ -16,6 +16,8 @@ haversine.o : haversine.c haversine.h
 
 calculation.o : calc/calculation.c haversine.h
 	$(C99) $(CFLAGS) -c calc/calculation.c
+	$(C99) $(CFLAGS) -c calc/calculation.c
+	$(C99) $(CFLAGS) -c calc/calculation.c
 
 conversions.o : conversions.c haversine.h
 	$(C99) $(CFLAGS) -c conversions.c

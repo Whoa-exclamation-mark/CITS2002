@@ -25,7 +25,7 @@ void exec_command(Command* command){
     switch (fork()){
         case -1:
             //We can't create a new process :( so exit as it is fatal
-            error("ERROR: We have failed to create a process (possible resource overallocation).\n Please restart Bake! with more resources.");
+            error("\033[31mERROR: We have failed to create a process (possible resource overallocation).\n Please restart Bake! with more resources.\033[0m");
             exit(EXIT_FAILURE);
         case 0:
             //Close the unused write end
@@ -47,8 +47,8 @@ void exec_command(Command* command){
             //Determine if we should error out
             if(exit_status != EXIT_SUCCESS && !command->continue_on_error && !IGNORE_ERRORS){
                 //Print that we have failed
-                error("ERROR: Command has failed\n");
-                error("--- Build Failure ---");
+                error("\033[31mERROR: Command has failed\033[0m\n");
+                error("\033[31m--- Build Failure ---\033[0m\n");
                 //This is fatal so we should stop (we are only executing one master target so there is no point in continuing)
                 exit(EXIT_FAILURE);
             }

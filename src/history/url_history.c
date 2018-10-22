@@ -35,7 +35,7 @@ bool is_url_up_to_date(char* url, Target* target){
     fp = popen(command, "r");
     //Check if we have opened a stream
     if (fp == NULL) {
-        error("ERROR: Failed to fetch URL (command failed)\n" );
+        error("\033[31mERROR: Failed to fetch URL (command failed)\033[0m\n" );
         return false;
     }
 

@@ -86,7 +86,7 @@ void attach_dependencies(char* target){
                         push_on_array((void **) (*trg_point)->file_dependencies, striped);
                     } else{
                         //Or we didn't find anything :( - just print the error
-                        error("ERROR: %s not a target or file!\n", striped);
+                        error("\033[31mERROR: %s not a target or file!\n\033[0m", striped);
                     }
                     //Push the dependency onto the stack
                     push(depen_stack, striped);
@@ -213,7 +213,7 @@ void setCommands(char* target){
     //Check if the specified target is valid
     if(!is_target(target)){
         //Print if not
-        error("ERROR: Target %s is not a valid target", target);
+        error("\033[31mERROR: Target %s is not a valid target\033[0m", target);
         //Exit as this error is fatal
         exit(EXIT_FAILURE);
     }
@@ -226,14 +226,14 @@ void setCommands(char* target){
     //Are we running in interp mode?
     if(RUN_INTERP){
         //Print if we have seceded
-        info("--- Interpreted Success ---");
+        info("\033[32m--- Interpreter Success ---\033[0m");
         //Exit
         exit(EXIT_SUCCESS);
     }
     //Check we haven't gone over the max actions
     if(num_command > MAX_ACTIONS){
         //Print if we have
-        error("ERROR: Number of actions exceed the hard limit of %d",MAX_ACTIONS);
+        error("\033[31mERROR: Number of actions exceed the hard limit of %d\033[0m",MAX_ACTIONS);
         //Exit as this is fatal
         exit(EXIT_FAILURE);
     };

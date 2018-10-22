@@ -31,7 +31,7 @@ void usage(char option){
     //Print out usage infomation
     info("OVERVIEW: %s %s\n",APP_NAME,VERSION);
     //If this was because of a unknown option then print that they don't know what they are doing
-    if(option!=0) error("\nERROR: Unknown option\n");
+    if(option!=0) error("\n\033[31mERROR: Unknown option\033[0m\n");
     info("\nUSAGE: bake [options] target\n\n");
     info("OPTIONS:\n"
            "\t-C\t\tSet working directory of Bake! (default to current one)\n"
@@ -90,7 +90,6 @@ int main(int argc, char *argv[]) {
             }
         }
     }
-
     //Change the # of arguments to the amount less than the ones that we just phased
     argc  -= optind;
     //Move the option array to the # that we just phased
@@ -104,7 +103,7 @@ int main(int argc, char *argv[]) {
     //Run the commands
     run_commands();
     //We have finished all good!
-    info("--- Build Success ---\n");
+    info("\033[32m--- Build Success ---\033[0m\n");
     //Exit with success!
     exit(EXIT_SUCCESS);
 }

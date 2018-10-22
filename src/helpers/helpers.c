@@ -17,7 +17,7 @@ void* my_malloc(size_t size){
     void* alloc = malloc(size);
     //Error out if it has failed allocating memory
     if(alloc == NULL){
-        error("ERROR: Attempted to allocate %i byte of memory but failed.", (int) size);
+        error("\033[31mERROR: Attempted to allocate %i byte of memory but failed.\n\033[0m", (int) size);
         exit(EXIT_FAILURE);
     }
     //Return pointer to the allocated memory
@@ -29,7 +29,7 @@ void* my_calloc(size_t size){
     void* alloc = calloc(size,size);
     //Error out if it has failed allocating memory
     if(alloc == NULL){
-        error("ERROR: Attempted to allocate %i byte of memory but failed.", (int) size);
+        error("\033[31mERROR: Attempted to allocate %i byte of memory but failed.\n\033[0m", (int) size);
         exit(EXIT_FAILURE);
     }
     //Return pointer to the allocated memory
@@ -67,7 +67,7 @@ char** get_file_string(char* file){
         fclose(_file);
     } else{
         //Error out if we cannot open the file
-        error("ERROR: Could not open the %s in read mode. Please make sure that the file exists and rerun Bake!\n",file);
+        error("\033[31mERROR: Could not open the %s in read mode. Please make sure that the file exists and rerun Bake!\033[0m\n",file);
         exit(EXIT_FAILURE);
     }
 
@@ -75,7 +75,7 @@ char** get_file_string(char* file){
     while (*string) i += *(string++) == '\n';
 
     //Allocate a new array of strings with length lines in the file + 1 (null byte)
-    char **finalString = my_calloc((size_t) (i + 1));
+    char **finalString = my_calloc((size_t) sizeof(char *) * (i + 1));
 
     //Create a buffer for reading each line in
     char buff[BUFSIZ] = {0};
@@ -97,7 +97,7 @@ char** get_file_string(char* file){
         }
     } else{
         //Fail if we cannot open file
-        error("ERROR: Could not open the %s in read mode. Please make sure that the file exists and rerun Bake!\n",file);
+        error("\033[31mERROR: Could not open the %s in read mode. Please make sure that the file exists and rerun Bake!\033[0m\n",file);
         exit(EXIT_FAILURE);
     }
     //Null terminate array
