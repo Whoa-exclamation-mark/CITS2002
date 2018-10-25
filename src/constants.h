@@ -28,7 +28,7 @@
 /**
  * This is the version number (a - alpha, b - beta, rc - release candidate, r - release)
  */
-#define VERSION "1.0.0rc"
+#define VERSION "1.0.0r"
 
 /**
  * This is the target that was specified in the evocation of the command
