@@ -44,7 +44,7 @@ bool is_url_up_to_date(char* url, Target* target){
 
     //Phase time into time_t to be used
     struct tm tm;
-    strptime(data, "%a, %d %b %G %T %Z", &tm);
+    strptime(data, "%a, %d %b %Y %T %Z", &tm);
     time_t t = mktime(&tm);
 
     //Close the stream

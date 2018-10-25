@@ -217,7 +217,7 @@ void replace_variable(char** strings){
                     found = true;
                 }
                 else if(!found && getenv(var_name)!=NULL){
-                    //Check if we have something in the environment variabless
+                    //Check if we have something in the environment variables
                     value = getenv(var_name);
                     found = true;
                 }else if(!found){
