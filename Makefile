@@ -7,7 +7,7 @@
 C99     =  cc -std=gnu99
 CFLAGS  =  -Wall -pedantic -Werror -g -std=c99
 
-bake : main.o runner.o phaser.o logger.o lexicon.o history.o helpers.o command.o stack.o url_history.o file_history.o
+bake : main.o runner.o phaser.o print_log.o lexicon.o history.o helpers.o command.o stack.o url_history.o file_history.o
 	$(C99) $(CFLAGS) -o bake \
 		main.o print_log.o runner.o phaser.o lexicon.o history.o helpers.o command.o stack.o url_history.o file_history.o -lm
 
@@ -20,7 +20,7 @@ runner.o: src/runner/runner.c src/runner/runner.h src/history/history.h src/phas
 phaser.o: src/phaser/phaser.c src/phaser/phaser.h src/adt/stack.h src/helpers/helpers.h src/history/history.h src/runner/runner.h src/logger/logger.h
 	$(C99) $(CFLAGS) -c src/phaser/phaser.c
 
-logger.o: src/logger/print_log.c src/logger/logger.h src/constants.h
+print_log.o: src/logger/print_log.c src/logger/logger.h src/constants.h
 	$(C99) $(CFLAGS) -c src/logger/print_log.c
 
 lexicon.o: src/lexicon/lexicon.c src/lexicon/lexicon.h src/helpers/helpers.h src/phaser/phaser.h src/constants.h src/logger/logger.h
