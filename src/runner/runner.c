@@ -44,7 +44,7 @@ void run_commands(){
         //Get the file dependencies
         char ** files = (*command_index)->parent->file_dependencies;
         //Get if this has no file dependencies (i.e. clean)
-        bool should_run_command = *files == NULL;
+        bool should_run_command = *files == NULL && *((*command_index)->parent->dependencies) == NULL;
         //Get the command parent
         Target* target = (*command_index)->parent;
         //Iterate over the file dependencies
@@ -60,8 +60,8 @@ void run_commands(){
             //Move onto the next file
             files++;
         }
-        //Se the command to if we should run
-        (*command_index)->should_run = should_run_command;
+        //See the command to if we should run
+        (*command_index)->should_run = target->rebuild || should_run_command ;
         //If we need to run then we need to update the parents
         if(should_run_command){
             //Set the parents to rebuild
