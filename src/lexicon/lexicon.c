@@ -51,7 +51,8 @@ void sanitize(char** strings){
             space_strip(*(strings+1),*(strings+1));
             //Combine lines together
             sprintf(data,"%s%s",*strings,*(strings+1));
-            //Make the new buffer the data for the line
+            //Make the new buffer the data for the line and free the old line
+            free(*strings);
             *strings = data;
             //Remove the the next line from the array
             remove_from_array((void **) original_pointer, (void **) (strings + 1));
@@ -81,6 +82,8 @@ void sanitize(char** strings){
             //Move if we didn't have a blank line
             strings++;
         }
+        //Free the temp var
+        free(strip_str);
     }
 }
 
@@ -113,8 +116,12 @@ void find_variables(char** strings){
             variables[i] = my_calloc(sizeof(Variable));
             //Copy the var name
             variables[i]->name = strdup(strip_str);
+            //Free the temp var
+            free(strip_str);
             //Copy the var value
             variables[i]->value = strdup(strip_str_1);
+            //Free the temp var
+            free(strip_str_1);
             //Remove the line from the string array
             remove_from_array((void **) orignal_str, (void **) strings);
             //Increment var index
@@ -169,9 +176,12 @@ void replace_variable(char** strings){
                         //We have a match to set the value and say that we have found it
                         value = strdup((*var)->value);
                         found = true;
-                        //End the loop
+                        //End the loop and free name
+                        free(name);
                         break;
                     }
+                    //Free name
+                    free(name);
                     //Decrement the var pointer
                     var--;
                 };
@@ -227,6 +237,10 @@ void replace_variable(char** strings){
                 }
                 //Replace the value and the $(NAME)
                 org_str = str_replace(org_str,str_rep,value);
+                //Free variables that are only in this scope
+                free(str_rep);
+                free(value);
+                free(var_name);
             }
             //Move onto the next char
             (*strings)++;
@@ -260,6 +274,8 @@ void phase(char** strings){
                 space_strip(char_raw,char_data);
                 //Assign the name pointer to data
                 data[i]->name = char_data;
+                //Free temp var
+                free(char_raw);
 
                 //Get the dependencies
                 char_raw = strdup(dependencies+1);
@@ -267,6 +283,8 @@ void phase(char** strings){
                 char_data = my_calloc(strlen(char_raw));
                 //Space strip dependencies
                 space_strip(char_raw,char_data);
+                //Free temp var
+                free(char_raw);
                 //Assign the pointer
                 data[i]->raw_dependencies = char_data;
 
@@ -330,4 +348,15 @@ void lexianate(char** strings){
     replace_variable(strings);
     //Phase the string into a struct
     phase(strings);
+    //Free the strings (we don't need it any more)
+    char ** org_str = strings;
+    //Iterate over strings
+    while (*strings){
+        //Free each sub string
+        free(*strings);
+        //Increment
+        strings++;
+    }
+    //Free the array
+    free(org_str);
 }

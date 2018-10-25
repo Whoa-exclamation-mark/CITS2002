@@ -72,6 +72,10 @@ void* pop(stack *s)
     memo=*s;
     //Move the stack up
     *s=memo->next;
+    //Get the item
+    void* data = memo->content;
+    //Free memo
+    free(memo);
     //Return the content of the poped item
-    return memo->content;
+    return data;
 }

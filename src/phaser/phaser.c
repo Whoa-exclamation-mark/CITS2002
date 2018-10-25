@@ -93,6 +93,8 @@ void attach_dependencies(char* target){
                     //Get the next token
                     token = strtok(NULL, " ");
                 }
+                //Free temp var
+                free(phase_dependencies);
             }
             //Increment the pointer to the target data
             trg_point++;
@@ -100,6 +102,8 @@ void attach_dependencies(char* target){
         //Reset the target data pointer
         trg_point = data;
     }
+    //Free the stack (it should be empty so no need to go over the stack)
+    free(depen_stack);
 }
 
 int attach_commands(char* target, stack* command_stack){
@@ -146,6 +150,9 @@ int attach_commands(char* target, stack* command_stack){
                 //We haven't found an -
                 command->continue_on_error = false;
             }
+            //Free temp var
+            free(modifiers);
+
             //Now we need to copy the command into the command struct (without the modifiers)
             command->command = *(raw_commands)+num_modifiers;
             //Set the parent so we can track who own what
@@ -201,6 +208,8 @@ int attach_commands(char* target, stack* command_stack){
             }
         }
     }
+    //Free empty stack
+    free(depen_stack);
     //Return the number of commands we found
     return num_command;
 }
@@ -245,4 +254,6 @@ void setCommands(char* target){
         //Push onto the commands array
         push_on_array((void **) commands, command);
     }
+    //Free empty stack
+    free(command_stack);
 }

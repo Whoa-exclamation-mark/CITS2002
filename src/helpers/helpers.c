@@ -47,10 +47,9 @@ char** get_file_string(char* file){
     int i = 0;
     //Used in importing whole file into memory
     long size;
-    char *string;
+    char *string = "";
 
     //Open file and start importing it
-    //Todo ask if I should just use BUF_SIZE
     if((_file = fopen(file,"r"))!=NULL){
         //Go to the end of the file
         fseek(_file, 0, SEEK_END);
@@ -70,9 +69,13 @@ char** get_file_string(char* file){
         error("\033[31mERROR: Could not open the %s in read mode. Please make sure that the file exists and rerun Bake!\033[0m\n",file);
         exit(EXIT_FAILURE);
     }
+    //Original string pointer for free
+    char* org_string = string;
 
     //Iterate over string and count each \n
     while (*string) i += *(string++) == '\n';
+    //Free the string
+    free(org_string);
 
     //Allocate a new array of strings with length lines in the file + 1 (null byte)
     char **finalString = my_calloc((size_t) sizeof(char *) * (i + 1));
